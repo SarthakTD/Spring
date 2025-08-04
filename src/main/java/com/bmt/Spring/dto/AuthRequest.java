@@ -1,4 +1,4 @@
-package com.bmt.Spring.security;
+package com.bmt.Spring.dto;
 
 public class AuthRequest {
     private String username;

@@ -38,7 +38,16 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/authenticate", "/api/signup").permitAll()
+                        .requestMatchers(
+                                "/api/signup",
+                                "/",
+                                "/signup",
+                                "/login",
+                                "/message",
+                                "/dashboard",
+                                "/api/authenticate",
+                                "/style.css", "/js/**" // if you have styles/scripts
+                        ).permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider())
