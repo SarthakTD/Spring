@@ -1,25 +1,25 @@
 package com.bmt.Spring.controller;
+
 import com.bmt.Spring.model.User;
 import com.bmt.Spring.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
-@Controller
+@RestController
+@RequestMapping("/api")
 public class SignupController {
 
     @Autowired
     private UserRepository userRepository;
 
-    @GetMapping("/signup")
-    public String showSignupForm(User user) {
-        return "signup"; // shows signup.html template
-    }
-
     @PostMapping("/signup")
-    public String processSignup(@ModelAttribute("user") User user) {
-        // Save user to PostgreSQL
-        userRepository.save(user);
-        return "redirect:/login"; // redirect to login after signup
+    public ResponseEntity<String> signup(@RequestBody User user) {
+        if (userRepository.findByUsername(user.getUsername()).isPresent()) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Username already exists");
+        }
+
+        userRepository.save(user); // You can encode the password later
+        return ResponseEntity.ok("User registered successfully");
     }
 }
