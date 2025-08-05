@@ -1,10 +1,10 @@
+/*
 package com.bmt.Spring.security;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -28,9 +28,9 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {
 
-        // ✅ Skip JWT check for login endpoint
+        // ✅ Skip JWT check for login or signup endpoints
         String path = request.getRequestURI();
-        if (path.equals("/api/login")) {
+        if ("/api/login".equals(path) || "/api/signup".equals(path)) {
             chain.doFilter(request, response);
             return;
         }
@@ -47,7 +47,6 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-
             if (jwtUtil.validateToken(jwt, userDetails.getUsername())) {
                 UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
                         userDetails, null, userDetails.getAuthorities());
@@ -59,3 +58,4 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         chain.doFilter(request, response);
     }
 }
+*/
