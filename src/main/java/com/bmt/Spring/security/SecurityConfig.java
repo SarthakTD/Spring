@@ -1,9 +1,4 @@
 package com.bmt.Spring.security;
-import org.springframework.context.annotation.Bean;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import java.util.List;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,11 +9,15 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.List;
 
 @Configuration
 @EnableMethodSecurity
@@ -46,7 +45,7 @@ public class SecurityConfig {
                                 "/message",
                                 "/dashboard",
                                 "/api/authenticate",
-                                "/style.css", "/js/**" // if you have styles/scripts
+                                "/style.css", "/js/"
                         ).permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -55,7 +54,6 @@ public class SecurityConfig {
 
         return http.build();
     }
-
 
     @Bean
     public AuthenticationProvider authenticationProvider() {
@@ -67,34 +65,25 @@ public class SecurityConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return NoOpPasswordEncoder.getInstance(); // for demo; use bcrypt in production
+        return new BCryptPasswordEncoder(); // ✅ Corrected
     }
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
-        return config.getAuthenticationManager();
+        return config.getAuthenticationManager(); // ✅ Corrected
     }
+
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-
-        // Set allowed origin(s)
-        config.setAllowedOrigins(List.of("http://localhost:3000")); // Or "*" to allow all
-
-        // Allowed HTTP methods
+        config.setAllowedOrigins(List.of("http://localhost:3000"));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-
-        // Allowed headers
         config.setAllowedHeaders(List.of("Authorization", "Content-Type"));
-
-        // Allow credentials (cookies, auth headers)
         config.setAllowCredentials(true);
 
-        // Register config for all paths
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", config);
+        source.registerCorsConfiguration("/", config);
 
         return source;
     }
-
 }
