@@ -42,7 +42,7 @@ public class SecurityConfig {
                                 "/api/signup",
                                 "/",
                                 "/signup",
-                                "/login",
+                                "/api/login",
                                 "/message",
                                 "/dashboard",
                                 "/api/authenticate",

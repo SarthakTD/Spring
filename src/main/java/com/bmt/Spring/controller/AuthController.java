@@ -11,6 +11,7 @@ import org.springframework.security.authentication.*;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/api")
 public class AuthController {
@@ -24,7 +25,7 @@ public class AuthController {
     @Autowired
     private MyUserDetailsService userDetailsService;
 
-    @PostMapping("/authenticate")
+    @PostMapping("/api/login")
     public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthRequest authRequest) throws Exception {
         try {
             authenticationManager.authenticate(

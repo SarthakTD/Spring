@@ -13,6 +13,6 @@ public class MyUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) {
         // Static user for example: admin / password
-        return new User("admin", "{noop}password", new ArrayList<>());
+        return new User("admin", "password", new ArrayList<>());
     }
 }

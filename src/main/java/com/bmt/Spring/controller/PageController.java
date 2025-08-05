@@ -9,17 +9,17 @@ public class PageController {
     // Redirect root to login page
     @GetMapping("/")
     public String home() {
-        return "redirect:/login";
+        return "redirect:/message";
     }
 
     // Show login page
-    @GetMapping("/login")
+    @GetMapping("/api/login")
     public String loginPage() {
         return "login"; // loads login.html from templates/
     }
 
     // Show signup page
-    @GetMapping("/signup")
+    @GetMapping("/api/signup")
     public String signupPage() {
         return "signup"; // loads signup.html from templates/
     }
@@ -29,4 +29,5 @@ public class PageController {
     public String messagePage() {
         return "message"; // loads message.html from templates/
     }
+
 }
