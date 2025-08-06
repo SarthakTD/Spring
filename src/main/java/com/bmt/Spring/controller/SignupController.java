@@ -13,7 +13,10 @@ import org.springframework.web.bind.annotation.*;
 public class SignupController {
 
     @Autowired
-    private UserRepository userRepository;
+    private UserRepository userRepositor;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
     @Autowired
     private PasswordEncoder passwordEncoder;
     @PostMapping("/signup")
@@ -22,6 +25,10 @@ public class SignupController {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Username already exists");
         }
 
+
+        // Encode the password before saving
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        userRepository.save(user);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user); // You can encode the password later
         return ResponseEntity.ok("User registered successfully");

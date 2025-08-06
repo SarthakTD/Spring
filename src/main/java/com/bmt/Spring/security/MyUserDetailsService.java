@@ -1,4 +1,5 @@
 package com.bmt.Spring.security;
+
 import com.bmt.Spring.model.User;
 import com.bmt.Spring.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +13,6 @@ import java.util.ArrayList;
 
 @Service
 public class MyUserDetailsService implements UserDetailsService {
-
-    // ⚠️ No need to inject PasswordEncoder here
 
     @Autowired
     private UserRepository userRepository;
